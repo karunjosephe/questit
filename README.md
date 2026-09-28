@@ -6,7 +6,7 @@ Questit is a simple, gamified focus timer designed to help you build discipline 
 
 ## Origin Story
 
-Questit was born out of personal necessity during my college days. While trying to balance lectures, assignments, and personal projects, I struggled with standard stopwatch and Pomodoro apps. They were either too passive or too rigid. I needed a system that understood that life is non-linear—some days you have extra energy to focus, while other days you fall short. 
+Questit was born out of personal necessity during my college days. While trying to balance lectures, assignments, and personal projects, I struggled with standard stopwatch and Pomodoro apps. They were either too passive or too rigid. I needed a system that understood that life is non-linear; some days you have extra energy to focus, while other days you fall short. 
 
 I created Questit to track my focus time with real consequences, allowing me to stay accountable to my goals without losing momentum.
 
