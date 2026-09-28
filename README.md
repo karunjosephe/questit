@@ -1,107 +1,64 @@
-# Questit - Personal Focus & Time Accountability System
+# Questit
 
-Questit is a Flutter-based mobile application designed to gamify daily productivity and focus using a disciplined "time-banking" philosophy. Instead of acting as a passive stopwatch, Questit introduces consequence to time management by allowing users to lend, borrow, and track focus time across custom daily quests.
-
----
-
-## Core Mechanics
-
-### 1. The Time Bank (Lend & Borrow)
-Questit is built around a dynamic balance system for focus time:
-*   **Lending (Credit)**: Working beyond a quest's daily goal adds the surplus time to your **Banked Credit**. This credit can be used to cushion future days where you might fall short.
-*   **Borrowing (Debt)**: Falling short of a daily goal generates **Debt**. Debt must be repaid in subsequent sessions to maintain your standing.
-*   **Real-Time Settlement**: Surplus time worked is added to the bank in real-time, allowing users to watch their credit balance grow during an active session.
-
-### 2. The One-Day Boundary
-To enforce discipline and prevent system abuse, both Credit and Debt are strictly capped at **one full daily quota** for each quest.
-*   **Credit Cap**: You cannot bank more than 24 hours (or one daily goal) of surplus time.
-*   **Debt Cap**: You cannot owe more than one daily goal's worth of time. 
-
-### 3. System Penalty & Streak Evolution
-*   **System Penalty**: If a quest's debt reaches the maximum limit (1 full goal duration), the System Penalty triggers upon the next daily settlement, permanently resetting the streak to 0.
-*   **Streak Evolution**: Active streaks increase daily as goals are met. The streak indicator evolves through distinct visual states as milestone counts are reached, ending in a high-tier status for long-term consistency.
+Questit is a simple, gamified focus timer designed to help you build discipline and manage your daily study or work habits.
 
 ---
 
-## Technical Architecture & Features
+## Origin Story
 
-### Architecture & State Management
-*   **State Management**: Built using `flutter_riverpod` with `StateNotifier` to maintain decoupled business logic and real-time state synchronization across screens.
-*   **Storage Engine**: Uses `hive` and `hive_flutter` for lightweight, low-latency local persistence of task models and settlement logs.
-*   **Credit Engine**: A pure Dart, framework-agnostic logic layer (`CreditEngine`) responsible for settlement calculations, debt-capping, and streak evaluation, ensuring complete unit-test coverage.
+Questit was born out of personal necessity during my college days. While trying to balance lectures, assignments, and personal projects, I struggled with standard stopwatch and Pomodoro apps. They were either too passive or too rigid. I needed a system that understood that life is non-linear—some days you have extra energy to focus, while other days you fall short. 
 
-### Android Foreground Service
-*   **Background Timing**: Integrates `flutter_foreground_task` to run an ongoing, high-priority Android Foreground Service (`specialUse` type).
-*   **System Bar Integration**: Triggers the ongoing status bar indicator (active task pill on Samsung/Pixel devices) while a quest is running.
-*   **Battery Optimization**: Uses passive timing mechanisms and state-driven updates to minimize background battery consumption.
-
-### AMOLED Dark & Standby UX
-*   **AMOLED Dark Theme**: Designed with a `#000000` background to conserve battery on OLED screens and eliminate workspace distractions.
-*   **Burn-in Protection (Zen Mode)**: Features an optional Zen Mode that dims the interface to 40% opacity and applies a subtle, randomized **pixel-shifting matrix** every 60 seconds to prevent static image retention.
-*   **Standby Landscape Mode**: Rotating the device horizontally enters an edge-to-edge split view. The left side houses a large, centered progress ring, while the right side displays quest metrics and controls.
-*   **Screen Wake Lock**: Automatically prevents screen timeout during active timing sessions using `wakelock_plus`.
-*   **Haptic Engine**: Provides tactile feedback for control actions and a victory vibration pattern upon daily goal completion via `vibration`.
+I created Questit to track my focus time with real consequences, allowing me to stay accountable to my goals without losing momentum.
 
 ---
 
-## Project Structure
+## How It Works
 
-```
-lib/
-├── main.dart                 # Application entry point & route definitions
-├── models/
-│   ├── task.dart             # Hive task model (goal, balance, streak)
-│   └── daily_log.dart        # Settlement logs
-├── services/
-│   ├── credit_engine.dart    # Pure Dart banking & debt-cap logic
-│   ├── storage_service.dart   # Hive persistence wrapper
-│   ├── tutorial_service.dart  # Onboarding state management
-│   └── foreground/           # Android foreground service lifecycle
-├── providers/
-│   └── task_provider.dart    # Riverpod state notifier for active quests
-├── screens/
-│   ├── splash_screen.dart    # Animated branding entry
-│   ├── tutorial_screen.dart  # Interactive onboarding & system guide
-│   ├── home_screen.dart      # Quest Board (multi-task management)
-│   └── timer_screen.dart     # Active quest timer (Portrait & Standby)
-├── widgets/
-│   └── gamified_flame.dart   # Evolving streak flame component
-└── theme/
-    └── app_theme.dart        # AMOLED dark theme & color palette
-```
+Questit uses a time-banking system where you can lend or borrow focus time for your daily tasks.
+
+### 1. Lend and Borrow Time
+* **Banking Credit**: If you work past your daily goal, the extra time is saved as credit for future days.
+* **Borrowing Time**: If you miss your goal, you accumulate debt. You must work extra in your next sessions to pay off this debt.
+
+### 2. The One-Day Limit
+To keep things fair and realistic, both credit and debt are capped at a maximum of one day's goal. You can only bank up to 24 hours worth of progress, and you can only owe up to one day of debt.
+
+### 3. System Penalty
+If you let your debt reach the maximum limit and miss another day, the system triggers a penalty that resets your streak back to zero.
+
+### 4. Streak Evolution
+Staying consistent grows your streak flame. As your streak increases, your flame evolves into new visual stages to represent your dedication.
 
 ---
 
-## Getting Started
+## Features
 
-### Prerequisites
-*   Flutter SDK (3.x or higher)
-*   Android SDK (API level 26 or higher recommended)
+* **Multi-Quest Management**: Create and track separate timers for different subjects or habits.
+* **AMOLED Dark Theme**: Uses a pure black background to save battery and reduce distraction during long study sessions.
+* **Zen Mode**: Dim the screen and enable pixel-shifting to prevent AMOLED screen burn-in during long focus periods.
+* **Live System Notification**: Shows your ongoing quest progress in your Android status bar so you can track time without keeping the app open.
 
-### Installation
-1. Clone the repository:
+---
+
+## Setup and Installation
+
+1. Make sure you have Flutter installed on your machine.
+2. Clone this repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/questit.git
+   git clone https://github.com/karunjosephe/questit.git
    cd questit
    ```
-2. Install dependencies:
+3. Install the dependencies:
    ```bash
    flutter pub get
    ```
-3. Run code generation (for Hive adapters):
-   ```bash
-   dart run build_runner build --delete-conflicting-outputs
-   ```
-4. Launch application:
+4. Run the app:
    ```bash
    flutter run
    ```
 
 ---
 
-## Production Build & Shrinking
-To build an optimized, obfuscated production Android App Bundle:
-```bash
-flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info
-```
-*Note: Resource shrinking and ProGuard minification are configured in `android/app/build.gradle.kts` to minimize application binary size.*
+## Acknowledgment
+
+This app concept, logic, and design originated entirely from my personal experiences and needs during college. Artificial Intelligence tools were utilized to assist in writing and optimizing the Flutter codebase during development.
